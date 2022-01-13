@@ -14,13 +14,21 @@
       },
       "oauth_client": [
         {
+          "client_id": "713405592516-niil52s930ouj256enoemn2drdranikk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.scarfacehbc.MedikamentenTimer",
+            "certificate_hash": "86edd987c2c4ebdfae71e5d6c2de70f705b150f3"
+          }
+        },
+        {
           "client_id": "713405592516-ol60pnhss6aslg9e9cpebqfc1ec2uc15.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD-y_TNM71B1Ik0QkjgOKN4UeJXsRDQ_3A"
+          "current_key": "AIzaSyDi24Fb6fDLbeEqJflIUHsvqOTpr8EZ078"
         }
       ],
       "services": {

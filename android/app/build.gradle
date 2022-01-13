@@ -132,6 +132,7 @@ android {
     }
 
     defaultConfig {
+        manifestPlaceholders = [appAuthRedirectScheme: 'myapp']
         applicationId 'com.scarfacehbc.MedikamentenTimer'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion

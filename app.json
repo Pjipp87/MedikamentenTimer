@@ -1,6 +1,6 @@
 {
   "expo": {
-    "scheme": "com.scarfacehbc.MedikamentenTimer://",
+    "scheme": "myapp",
     "jsEngine": "hermes",
     "name": "MedikamentenTimer",
     "slug": "MedikamentenTimer",

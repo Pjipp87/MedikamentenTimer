@@ -26,7 +26,7 @@
         <action android:name="android.intent.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
-        <data android:scheme="https://auth.expo.io/@Scarfacehbc/MedikamentenTimer"/>
+        <data android:scheme="myapp"/>
         <data android:scheme="com.scarfacehbc.MedikamentenTimer"/>
         <data android:scheme="exp+medikamententimer"/>
       </intent-filter>
