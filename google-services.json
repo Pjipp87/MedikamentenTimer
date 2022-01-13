@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "713405592516",
+    "project_id": "medikamententimer",
+    "storage_bucket": "medikamententimer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:713405592516:android:978703abe1d76c28576a91",
+        "android_client_info": {
+          "package_name": "com.scarfacehbc.MedikamentenTimer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "713405592516-ol60pnhss6aslg9e9cpebqfc1ec2uc15.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-y_TNM71B1Ik0QkjgOKN4UeJXsRDQ_3A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "713405592516-ol60pnhss6aslg9e9cpebqfc1ec2uc15.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
