@@ -19,6 +19,9 @@ export const LoginScreen = () => {
       "713405592516-u5sc7u9r62tq01ctj9ifmhn7btfp3e0m.apps.googleusercontent.com",
     webClientId: "GOOGLE_GUID.apps.googleusercontent.com",
     //###################
+    redirectUri: AuthSession.makeRedirectUri({
+      native: "com.scarfacehbc.medikamententimer",
+    }),
   });
 
   React.useEffect(() => {
