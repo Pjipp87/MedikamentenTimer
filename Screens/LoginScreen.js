@@ -20,7 +20,7 @@ export const LoginScreen = () => {
     webClientId: "GOOGLE_GUID.apps.googleusercontent.com",
     //###################
     redirectUri: AuthSession.makeRedirectUri({
-      native: "com.scarfacehbc.medikamententimer",
+      scheme: "com.scarfacehbc.medikamententimer",
     }),
   });
 
