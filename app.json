@@ -1,6 +1,6 @@
 {
   "expo": {
-    "scheme": "myapp",
+    "scheme": "com.scarfacehbc.medikamententimer",
     "jsEngine": "hermes",
     "name": "MedikamentenTimer",
     "slug": "MedikamentenTimer",
@@ -24,7 +24,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.scarfacehbc.MedikamentenTimer",
+      "package": "com.scarfacehbc.medikamententimer",
       "googleServicesFile": "./google-services.json"
     },
     "web": {

@@ -9,10 +9,6 @@ import * as Linking from "expo-linking";
 WebBrowser.maybeCompleteAuthSession();
 
 export const LoginScreen = () => {
-  const redirectUri = AuthSession.makeRedirectUri({
-    native: "myapp",
-  });
-
   const [isLoeggedIn, setIsLoeggedIn] = useState(false);
 
   const [request, response, promptAsync] = Google.useAuthRequest({
@@ -22,6 +18,7 @@ export const LoginScreen = () => {
     androidClientId:
       "713405592516-niil52s930ouj256enoemn2drdranikk.apps.googleusercontent.com",
     webClientId: "GOOGLE_GUID.apps.googleusercontent.com",
+    //###################
   });
 
   React.useEffect(() => {
@@ -39,7 +36,11 @@ export const LoginScreen = () => {
         disabled={!request}
         title="Login"
         onPress={() => {
-          promptAsync({ redirectUri });
+          promptAsync(
+            AuthSession.makeRedirectUri({
+              native: "com.scarfacehbc.medikamententimer",
+            })
+          );
         }}
       />
       <Text>{isLoeggedIn ? "Eingeloggt" : null}</Text>
