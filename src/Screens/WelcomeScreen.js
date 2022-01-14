@@ -8,6 +8,7 @@ import { Button } from "react-native-paper";
 export const WelcomeScreen = () => {
   const { user, setUserFunc, toggleSignIn } = useContext(Context);
 
+  // TODO: Logout in eine andere Datei (LOGOUT_LOGIN.js)
   const _logout = () => {
     signOut(auth)
       .then(() => {
@@ -19,6 +20,7 @@ export const WelcomeScreen = () => {
       });
   };
 
+  // TODO: UI mit Styled Components anfertigen (ggfs für wiederverwendete Code Snippets eigene Components anlegen! )
   return (
     <View style={styles.main}>
       <Text>Willkommen {user.displayName}</Text>

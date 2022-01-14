@@ -26,7 +26,19 @@ import * as Icon from "@expo/vector-icons";
 
 import { LoginScreen2 } from "../Screens/LoginScreen2";
 
+// TODO: Theming: hier die beiden Thmes definieren
+const DefaultThemeNew = {
+  ...CombinedDefaultTheme,
+  roundness: 2,
+  colors: {
+    ...CombinedDefaultTheme.colors,
+    primary: "red",
+    accent: "#f1c40f",
+  },
+};
+
 export default function MainController() {
+  // TODO: Theming: hier die beiden Themes ändern
   let theme = isThemeDark ? CombinedDarkTheme : CombinedDefaultTheme;
 
   const [isThemeDark, setIsThemeDark] = useState(false);
