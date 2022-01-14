@@ -3444,7 +3444,7 @@
     "locate-path" "^6.0.0"
     "path-exists" "^4.0.0"
 
-"firebase@^9.6.2":
+"firebase@^9.6.3":
   "integrity" "sha512-CMzv2LJGruZNtKI6pk1XLVaDC7ujIcq/S57wbC9XGllykIh86GLNPwVEWuCqCWmQDAZLyhi0t6tW/F2NX3HcPA=="
   "resolved" "https://registry.npmjs.org/firebase/-/firebase-9.6.3.tgz"
   "version" "9.6.3"

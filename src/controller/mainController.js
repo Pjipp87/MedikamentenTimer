@@ -24,6 +24,8 @@ import { MedicationScreen } from "../Screens/MedicationScreen";
 import { DoctorsScreen } from "../Screens/DoctorsScreen";
 import * as Icon from "@expo/vector-icons";
 
+import { LoginScreen2 } from "../Screens/LoginScreen2";
+
 export default function MainController() {
   let theme = isThemeDark ? CombinedDarkTheme : CombinedDefaultTheme;
 
@@ -99,7 +101,7 @@ export default function MainController() {
                 <Tab.Screen name="Notizen" component={NoticeScreen} />
               </>
             ) : (
-              <Tab.Screen name="Login" component={LoginScreen} />
+              <Tab.Screen name="Login" component={LoginScreen2} />
             )}
           </Tab.Navigator>
         </NavigationContainer>
