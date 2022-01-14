@@ -5,4 +5,6 @@ export const Context = createContext({
   isThemeDark: false,
   toggleSignIn: () => {},
   isSignedIn: false,
+  setUserFunc: () => {},
+  user: {},
 });

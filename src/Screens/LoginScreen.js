@@ -9,7 +9,7 @@ WebBrowser.maybeCompleteAuthSession();
 //#############################
 
 export const LoginScreen = () => {
-  const { toggleSignIn } = useContext(Context);
+  const { toggleSignIn, setUserFunc } = useContext(Context);
 
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId:
@@ -30,7 +30,7 @@ export const LoginScreen = () => {
     if (response?.type === "success") {
       const { authentication } = response;
       const auth = response.params;
-      console.log(auth);
+
       toggleSignIn();
     }
   }, [response]);

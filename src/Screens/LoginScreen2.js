@@ -1,16 +1,22 @@
-import * as React from "react";
+import React, { useContext, useEffect } from "react";
 import * as WebBrowser from "expo-web-browser";
 import { ResponseType } from "expo-auth-session";
 import * as Google from "expo-auth-session/providers/google";
-import { GoogleAuthProvider, signInWithCredential } from "firebase/auth";
+import {
+  GoogleAuthProvider,
+  signInWithCredential,
+  onAuthStateChanged,
+} from "firebase/auth";
 import { Button, View, Text } from "react-native";
 import { auth } from "../utils/FirebaseConfig";
+import { Context } from "../utils/Context";
 
 WebBrowser.maybeCompleteAuthSession();
 
 //#############################
 
 export const LoginScreen2 = () => {
+  const { toggleSignIn, setUserFunc } = useContext(Context);
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
     expoClientId:
       "713405592516-ol60pnhss6aslg9e9cpebqfc1ec2uc15.apps.googleusercontent.com",
@@ -20,7 +26,7 @@ export const LoginScreen2 = () => {
     webClientId: "GOOGLE_GUID.apps.googleusercontent.com",
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (response?.type === "success") {
       const { id_token } = response.params;
       //console.log(request);
@@ -28,11 +34,11 @@ export const LoginScreen2 = () => {
       signInWithCredential(auth, credential)
         .then((userCredential) => {
           const user = userCredential.user;
-          //console.log(user);
+          setUserFunc(user);
+          toggleSignIn();
         })
         .catch((error) => {
-          alert(error);
-          console.log("error: ", error);
+          //console.log("error: ", error);
         });
     }
   }, [response]);

@@ -1,36 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { signOut } from "firebase/auth";
+import { auth } from "../utils/FirebaseConfig";
+import { Context } from "../utils/Context";
+import { Button } from "react-native-paper";
 
 export const WelcomeScreen = () => {
-  const [userName, setUserName] = useState("");
+  const { user, setUserFunc, toggleSignIn } = useContext(Context);
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUserName(user.displayName);
-        /**
-          * _getStatusUpdate();
-          setCurrentUsernameFunc(user.email);
-          setCurrentUserData({
-            name: user.displayName,
-            username: user.email,
-            picture: user.photoURL,
-            id: user.uid,
-          });
-  
-          _setFriendOnline(user);
-          _setUserList(user);
-           */
-      } else {
-        // User is signed out
-        // ...
-      }
-    });
-  }, [user]);
+  const _logout = () => {
+    signOut(auth)
+      .then(() => {
+        setUserFunc({});
+        toggleSignIn();
+      })
+      .catch((error) => {
+        //console.log("Logout error");
+      });
+  };
 
   return (
     <View style={styles.main}>
-      <Text>Willkommen {userName}</Text>
+      <Text>Willkommen {user.displayName}</Text>
+      <Button onPress={() => _logout()}>Logout</Button>
     </View>
   );
 };

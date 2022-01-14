@@ -31,6 +31,7 @@ export default function MainController() {
 
   const [isThemeDark, setIsThemeDark] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
+  const [user, setUser] = useState({});
 
   // Theme
   const toggleTheme = useCallback(() => {
@@ -42,14 +43,23 @@ export default function MainController() {
     return setIsSignedIn(!isSignedIn);
   }, [isSignedIn]);
 
+  const setUserFunc = useCallback(
+    (user) => {
+      return setUser(user);
+    },
+    [user]
+  );
+
   const preferences = useMemo(
     () => ({
       toggleTheme,
       isThemeDark,
       toggleSignIn,
       isSignedIn,
+      setUserFunc,
+      user,
     }),
-    [toggleTheme, isThemeDark, toggleSignIn, isSignedIn]
+    [toggleTheme, isThemeDark, toggleSignIn, isSignedIn, setUserFunc, user]
   );
 
   return (
