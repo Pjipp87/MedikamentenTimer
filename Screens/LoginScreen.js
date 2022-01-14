@@ -50,4 +50,10 @@ const styles = StyleSheet.create({});
  *  AuthSession.makeRedirectUri({
               native: "com.scarfacehbc.medikamententimer",
             })
+
+
+
+
+
+            //"scheme": "com.scarfacehbc.medikamententimer",
  */
