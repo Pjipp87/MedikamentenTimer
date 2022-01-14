@@ -8,6 +8,10 @@ import * as Linking from "expo-linking";
 
 WebBrowser.maybeCompleteAuthSession();
 
+//#############################
+const useProxy = Platform.select({ web: false, default: true });
+const redirectUri = AuthSession.makeRedirectUri({ useProxy });
+
 export const LoginScreen = () => {
   const [isLoeggedIn, setIsLoeggedIn] = useState(false);
 
@@ -18,10 +22,16 @@ export const LoginScreen = () => {
     androidClientId:
       "713405592516-u5sc7u9r62tq01ctj9ifmhn7btfp3e0m.apps.googleusercontent.com",
     webClientId: "GOOGLE_GUID.apps.googleusercontent.com",
+    redirectUri: makeRedirectUri({
+      preferLocalhost: true,
+      native: "com.scarfacehbc.medikamententimer://",
+    }),
     //###################
-    redirectUri: AuthSession.makeRedirectUri({
+    /**
+     * redirectUri: AuthSession.makeRedirectUri({
       scheme: "com.scarfacehbc.medikamententimer",
     }),
+     */
   });
 
   React.useEffect(() => {
