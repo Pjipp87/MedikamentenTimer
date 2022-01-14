@@ -1,17 +1,15 @@
-import React, { useState } from "react";
-import { StyleSheet, Button, View, Text } from "react-native";
+import React, { useContext, useEffect } from "react";
+import { StyleSheet, Button, View } from "react-native";
+import { Context } from "../utils/Context";
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
-import * as AuthSession from "expo-auth-session";
-import * as AppAuth from "expo-app-auth";
-import * as Linking from "expo-linking";
 
 WebBrowser.maybeCompleteAuthSession();
 
 //#############################
 
 export const LoginScreen = () => {
-  const [isLoeggedIn, setIsLoeggedIn] = useState(false);
+  const { toggleSignIn } = useContext(Context);
 
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId:
@@ -21,30 +19,31 @@ export const LoginScreen = () => {
       "713405592516-u5sc7u9r62tq01ctj9ifmhn7btfp3e0m.apps.googleusercontent.com",
     webClientId: "GOOGLE_GUID.apps.googleusercontent.com",
 
-    redirectUri: AuthSession.makeRedirectUri({
+    /**
+     *     redirectUri: AuthSession.makeRedirectUri({
       native: "com.scarfacehbc.medikamententimer://",
     }),
+     */
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (response?.type === "success") {
       const { authentication } = response;
-      console.log("Klappt");
-      setIsLoeggedIn(true);
-      console.log(Linking.createURL());
+      const auth = response.params;
+      console.log(auth);
+      toggleSignIn();
     }
   }, [response]);
 
   return (
-    <View style={{ flex: 1, paddingTop: 250 }}>
+    <View>
       <Button
         disabled={!request}
-        title="Login"
+        title="Mit Google Account einloggen"
         onPress={() => {
           promptAsync();
         }}
       />
-      <Text>{isLoeggedIn ? "Eingeloggt" : null}</Text>
     </View>
   );
 };
