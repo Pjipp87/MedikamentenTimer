@@ -36,7 +36,11 @@ export const LoginScreen = () => {
         disabled={!request}
         title="Login"
         onPress={() => {
-          promptAsync();
+          promptAsync(
+            AuthSession.makeRedirectUri({
+              native: "com.scarfacehbc.medikamententimer",
+            })
+          );
         }}
       />
       <Text>{isLoeggedIn ? "Eingeloggt" : null}</Text>
