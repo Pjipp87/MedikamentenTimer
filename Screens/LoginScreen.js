@@ -23,7 +23,6 @@ export const LoginScreen = () => {
       "713405592516-u5sc7u9r62tq01ctj9ifmhn7btfp3e0m.apps.googleusercontent.com",
     webClientId: "GOOGLE_GUID.apps.googleusercontent.com",
     redirectUri: makeRedirectUri({
-      preferLocalhost: true,
       native: "com.scarfacehbc.medikamententimer://",
     }),
     //###################
@@ -49,11 +48,7 @@ export const LoginScreen = () => {
         disabled={!request}
         title="Login"
         onPress={() => {
-          promptAsync(
-            AuthSession.makeRedirectUri({
-              native: "com.scarfacehbc.medikamententimer",
-            })
-          );
+          promptAsync();
         }}
       />
       <Text>{isLoeggedIn ? "Eingeloggt" : null}</Text>
