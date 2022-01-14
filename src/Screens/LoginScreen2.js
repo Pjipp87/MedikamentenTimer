@@ -23,11 +23,12 @@ export const LoginScreen2 = () => {
   React.useEffect(() => {
     if (response?.type === "success") {
       const { id_token } = response.params;
+      //console.log(request);
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential)
         .then((userCredential) => {
           const user = userCredential.user;
-          console.log(user);
+          //console.log(user);
         })
         .catch((error) => {
           alert(error);
