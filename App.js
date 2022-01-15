@@ -6,8 +6,8 @@ import MainController from "./src/controller/mainController";
 export default function App() {
   return (
     <>
-      <MainController></MainController>
       <StatusBar />
+      <MainController></MainController>
     </>
   );
 }

@@ -1,10 +1,12 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { Button } from "react-native-paper";
 
-export const NoticeScreen = () => {
+export const NoticeScreen = ({ navigation }) => {
   return (
     <View style={styles.main}>
       <Text>Notizen</Text>
+      <Button onPress={() => navigation.navigate("Willkommen")}>Zurück</Button>
     </View>
   );
 };

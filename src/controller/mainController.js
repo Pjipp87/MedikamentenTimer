@@ -24,6 +24,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 const CombinedDefaultTheme = merge(PaperDefaultTheme, NavigationDefaultTheme);
 const CombinedDarkTheme = merge(PaperDarkTheme, NavigationDarkTheme);
 import { createStackNavigator } from "@react-navigation/stack";
+import { useTheme } from "react-native-paper";
 import { useColorScheme } from "react-native";
 
 const Stack = createStackNavigator();
@@ -35,15 +36,18 @@ const DefaultThemeNew = {
   roundness: 2,
   colors: {
     ...CombinedDefaultTheme.colors,
-    primary: "#cb7d8c",
-    accent: "#f1c40f",
+    background: "#f6c453",
+    primary: "#fefbe9",
+    accent: "#f0a04b",
+    greenDark: "#183a1d",
+    greenBright: "#e1eedd",
   },
 };
 
 export default function MainController() {
   // TODO: Theming: hier die beiden Themes ändern
 
-  let theme = isThemeDark ? CombinedDarkTheme : CombinedDefaultTheme;
+  let theme = isThemeDark ? CombinedDarkTheme : DefaultThemeNew;
 
   // TODO das Theme des Telefons verwenden
   /**
@@ -56,7 +60,7 @@ export default function MainController() {
   }
 
  */
-
+  const { colors } = useTheme();
   const [isThemeDark, setIsThemeDark] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [user, setUser] = useState({});
@@ -105,7 +109,7 @@ export default function MainController() {
                 } else if (route.name === "Ihre Medikation") {
                   //iconName = focused ? "newspaper" : "newspaper-outline";
                   iconName = "hand-holding-medical";
-                } else if (route.name === "Aerzte") {
+                } else if (route.name === "Ärzte") {
                   //iconName = focused ? "newspaper" : "newspaper-outline";
                   iconName = "comment-medical";
                 } else if (route.name === "Notizen") {
@@ -124,19 +128,60 @@ export default function MainController() {
                   />
                 );
               },
-              tabBarActiveTintColor: "red",
-              tabBarInactiveTintColor: "gray",
+              tabBarActiveTintColor: DefaultThemeNew.colors.greenDark,
+              tabBarInactiveTintColor: DefaultThemeNew.colors.greenBright,
+              tabBarStyle: { backgroundColor: DefaultThemeNew.colors.accent },
             })}
           >
             {isSignedIn ? (
               <>
-                <Tab.Screen name="Willkommen" component={WelcomeScreen} />
+                <Tab.Screen
+                  name="Willkommen"
+                  component={WelcomeScreen}
+                  options={{
+                    tabBarShowLabel: false,
+                    headerStyle: {
+                      backgroundColor: DefaultThemeNew.colors.accent,
+                    },
+                    headerTitleAlign: "center",
+                  }}
+                />
                 <Tab.Screen
                   name="Ihre Medikation"
                   component={MedicationScreen}
+                  options={{
+                    tabBarShowLabel: false,
+
+                    headerStyle: {
+                      backgroundColor: DefaultThemeNew.colors.accent,
+                    },
+                    headerTitleAlign: "center",
+                  }}
                 />
-                <Tab.Screen name="Aerzte" component={DoctorsScreen} />
-                <Tab.Screen name="Notizen" component={NoticeScreen} />
+                <Tab.Screen
+                  name="Ärzte"
+                  component={DoctorsScreen}
+                  options={{
+                    tabBarShowLabel: false,
+
+                    headerStyle: {
+                      backgroundColor: DefaultThemeNew.colors.accent,
+                    },
+                    headerTitleAlign: "center",
+                  }}
+                />
+                <Tab.Screen
+                  name="Notizen"
+                  component={NoticeScreen}
+                  options={{
+                    tabBarShowLabel: false,
+
+                    headerStyle: {
+                      backgroundColor: DefaultThemeNew.colors.accent,
+                    },
+                    headerTitleAlign: "center",
+                  }}
+                />
               </>
             ) : (
               <Tab.Screen
@@ -144,7 +189,9 @@ export default function MainController() {
                 options={{
                   tabBarShowLabel: false,
                   title: "Willkommen",
-                  headerStyle: { backgroundColor: "#cb7d8c" },
+                  headerStyle: {
+                    backgroundColor: DefaultThemeNew.colors.background,
+                  },
                   headerTitleAlign: "center",
                 }}
                 component={LoginScreen}

@@ -40,29 +40,15 @@ export const LoginScreen = () => {
       signInWithCredential(auth, credential)
         .then((userCredential) => {
           const user = userCredential.user;
+          setUserFunc(user);
+          toggleSignIn();
         })
-        .then(() =>
-          onAuthStateChanged(auth, (user) => {
-            _setUserInFirebase(user);
-            setUserFunc(user);
-            toggleSignIn();
-          })
-        )
 
         .catch((error) => {
           //console.log("error: ", error);
         });
     }
   }, [response]);
-
-  const _setUserInFirebase = async (user) => {
-    await setDoc(doc(db, "User", `${user.email}`, `Profil`, `Informationen`), {
-      display: user.displayName,
-      email: user.email,
-      photoURL: user.photoURL,
-      uid: user.uid,
-    });
-  };
 
   return (
     <ViewComponent
@@ -98,3 +84,11 @@ export const LoginScreen = () => {
         }}
       />
  */
+
+/**
+       *  onAuthStateChanged(auth, (user) => {
+            _setUserInFirebase(user);
+            setUserFunc(user);
+            toggleSignIn();
+          })
+       */
