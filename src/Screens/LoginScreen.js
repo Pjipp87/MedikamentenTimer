@@ -1,63 +1,97 @@
 import React, { useContext, useEffect } from "react";
-import { StyleSheet, Button, View } from "react-native";
-import { Context } from "../utils/Context";
 import * as WebBrowser from "expo-web-browser";
+import { ResponseType } from "expo-auth-session";
+import { ViewComponent } from "../components/StyledView";
 import * as Google from "expo-auth-session/providers/google";
+import {
+  GoogleAuthProvider,
+  signInWithCredential,
+  onAuthStateChanged,
+} from "firebase/auth";
+import { LoginButton } from "../components/LoginButton";
+import { View } from "react-native";
+import { auth } from "../utils/FirebaseConfig";
+import { Context } from "../utils/Context";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../utils/FirebaseConfig";
+import { Button, Headline } from "react-native-paper";
 
 WebBrowser.maybeCompleteAuthSession();
 
 //#############################
 
 export const LoginScreen = () => {
-  const { toggleSignIn, setUserFunc } = useContext(Context);
-
-  const [request, response, promptAsync] = Google.useAuthRequest({
+  const { toggleSignIn, setUserFunc, user } = useContext(Context);
+  const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
     expoClientId:
       "713405592516-ol60pnhss6aslg9e9cpebqfc1ec2uc15.apps.googleusercontent.com",
     iosClientId: "GOOGLE_GUID.apps.googleusercontent.com",
     androidClientId:
       "713405592516-u5sc7u9r62tq01ctj9ifmhn7btfp3e0m.apps.googleusercontent.com",
     webClientId: "GOOGLE_GUID.apps.googleusercontent.com",
-
-    /**
-     *     redirectUri: AuthSession.makeRedirectUri({
-      native: "com.scarfacehbc.medikamententimer://",
-    }),
-     */
   });
 
   useEffect(() => {
     if (response?.type === "success") {
-      const { authentication } = response;
-      const auth = response.params;
+      const { id_token } = response.params;
+      //console.log(request);
 
-      toggleSignIn();
+      const credential = GoogleAuthProvider.credential(id_token);
+      signInWithCredential(auth, credential)
+        .then((userCredential) => {
+          const user = userCredential.user;
+        })
+        .then(() =>
+          onAuthStateChanged(auth, (user) => {
+            _setUserInFirebase(user);
+            setUserFunc(user);
+            toggleSignIn();
+          })
+        )
+
+        .catch((error) => {
+          //console.log("error: ", error);
+        });
     }
   }, [response]);
 
+  const _setUserInFirebase = async (user) => {
+    await setDoc(doc(db, "User", `${user.email}`, `Profil`, `Informationen`), {
+      display: user.displayName,
+      email: user.email,
+      photoURL: user.photoURL,
+      uid: user.uid,
+    });
+  };
+
   return (
-    <View>
+    <ViewComponent>
+      <View style={{ flex: 0.3 }}>
+        <Headline style={{ textAlign: "center" }}>Willkommen bei</Headline>
+        <Headline style={{ textAlign: "center", fontWeight: "bold" }}>
+          MedikamentenTimer
+        </Headline>
+      </View>
+
       <Button
+        icon="google"
+        mode="contained"
         disabled={!request}
-        title="Mit Google Account einloggen"
         onPress={() => {
           promptAsync();
         }}
-      />
-    </View>
+      >
+        Mit Google Account einloggen
+      </Button>
+    </ViewComponent>
   );
 };
 
-const styles = StyleSheet.create({});
-
 /**
- *  AuthSession.makeRedirectUri({
-              native: "com.scarfacehbc.medikamententimer",
-            })
-
-
-
-
-
-            //"scheme": "com.scarfacehbc.medikamententimer",
+ *  <LoginButton
+        request={request}
+        promptAsync={() => {
+          promptAsync();
+        }}
+      />
  */

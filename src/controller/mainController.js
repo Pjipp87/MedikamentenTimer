@@ -1,5 +1,10 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useCallback, useMemo } from "react";
+import { WelcomeScreen } from "../Screens/WelcomeScreen";
+import { NoticeScreen } from "../Screens/NoticeScreen";
+import { MedicationScreen } from "../Screens/MedicationScreen";
+import { DoctorsScreen } from "../Screens/DoctorsScreen";
+import * as Icon from "@expo/vector-icons";
 import { LoginScreen } from "../Screens/LoginScreen";
 import merge from "deepmerge";
 import {
@@ -15,16 +20,13 @@ import {
 } from "react-native-paper";
 import { Context } from "../utils/Context";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
 const CombinedDefaultTheme = merge(PaperDefaultTheme, NavigationDefaultTheme);
 const CombinedDarkTheme = merge(PaperDarkTheme, NavigationDarkTheme);
-const Tab = createBottomTabNavigator();
-import { WelcomeScreen } from "../Screens/WelcomeScreen";
-import { NoticeScreen } from "../Screens/NoticeScreen";
-import { MedicationScreen } from "../Screens/MedicationScreen";
-import { DoctorsScreen } from "../Screens/DoctorsScreen";
-import * as Icon from "@expo/vector-icons";
+import { createStackNavigator } from "@react-navigation/stack";
 
-import { LoginScreen2 } from "../Screens/LoginScreen2";
+const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
 // TODO: Theming: hier die beiden Thmes definieren
 const DefaultThemeNew = {
@@ -123,7 +125,16 @@ export default function MainController() {
                 <Tab.Screen name="Notizen" component={NoticeScreen} />
               </>
             ) : (
-              <Tab.Screen name="Login" component={LoginScreen2} />
+              <Tab.Screen
+                name="Login"
+                options={{
+                  tabBarShowLabel: false,
+                  title: "Willkommen",
+                  headerStyle: { backgroundColor: "red" },
+                  headerTitleAlign: "center",
+                }}
+                component={LoginScreen}
+              />
             )}
           </Tab.Navigator>
         </NavigationContainer>
