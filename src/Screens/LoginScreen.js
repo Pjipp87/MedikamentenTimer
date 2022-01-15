@@ -9,7 +9,7 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import { LoginButton } from "../components/LoginButton";
-import { View } from "react-native";
+import { View, Image } from "react-native";
 import { auth } from "../utils/FirebaseConfig";
 import { Context } from "../utils/Context";
 import { doc, setDoc } from "firebase/firestore";
@@ -65,14 +65,15 @@ export const LoginScreen = () => {
   };
 
   return (
-    <ViewComponent>
-      <View style={{ flex: 0.3 }}>
-        <Headline style={{ textAlign: "center" }}>Willkommen bei</Headline>
-        <Headline style={{ textAlign: "center", fontWeight: "bold" }}>
-          MedikamentenTimer
-        </Headline>
-      </View>
-
+    <ViewComponent style={{ justifyContent: "flex-start" }}>
+      <Image
+        source={require("../images/Lgog.png")}
+        resizeMode="contain"
+        style={{
+          marginBottom: 50,
+          width: "100%",
+        }}
+      />
       <Button
         icon="google"
         mode="contained"

@@ -6,4 +6,6 @@ export const ViewComponent = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
+  padding: 0;
+  margin: 0;
 `;
