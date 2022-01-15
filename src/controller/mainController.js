@@ -24,6 +24,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 const CombinedDefaultTheme = merge(PaperDefaultTheme, NavigationDefaultTheme);
 const CombinedDarkTheme = merge(PaperDarkTheme, NavigationDarkTheme);
 import { createStackNavigator } from "@react-navigation/stack";
+import { useColorScheme } from "react-native";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -41,7 +42,19 @@ const DefaultThemeNew = {
 
 export default function MainController() {
   // TODO: Theming: hier die beiden Themes ändern
+
   let theme = isThemeDark ? CombinedDarkTheme : CombinedDefaultTheme;
+
+  // TODO das Theme des Telefons verwenden
+  /**
+ *   const colorSchemeIdent = useColorScheme();
+     let theme;
+     if (colorSchemeIdent === "dark") {
+    theme = CombinedDarkTheme;
+    } else {
+    theme = CombinedDefaultTheme;
+    }
+ */
 
   const [isThemeDark, setIsThemeDark] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
@@ -130,7 +143,7 @@ export default function MainController() {
                 options={{
                   tabBarShowLabel: false,
                   title: "Willkommen",
-                  headerStyle: { backgroundColor: "red" },
+                  headerStyle: { backgroundColor: "#cb7d8c" },
                   headerTitleAlign: "center",
                 }}
                 component={LoginScreen}

@@ -2,6 +2,7 @@
   "expo": {
     "scheme": "com.scarfacehbc.medikamententimer",
     "jsEngine": "hermes",
+    "userInterfaceStyle": "automatic",
     "name": "MedikamentenTimer",
     "slug": "MedikamentenTimer",
     "version": "1.0.0",

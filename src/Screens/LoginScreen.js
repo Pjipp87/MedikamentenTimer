@@ -65,7 +65,9 @@ export const LoginScreen = () => {
   };
 
   return (
-    <ViewComponent style={{ justifyContent: "flex-start" }}>
+    <ViewComponent
+      style={{ justifyContent: "flex-start", backgroundColor: "#cb7d8c" }}
+    >
       <Image
         source={require("../images/Lgog.png")}
         resizeMode="contain"
