@@ -35,7 +35,7 @@ const DefaultThemeNew = {
   roundness: 2,
   colors: {
     ...CombinedDefaultTheme.colors,
-    primary: "red",
+    primary: "#cb7d8c",
     accent: "#f1c40f",
   },
 };
