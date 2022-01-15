@@ -4,6 +4,11 @@ import { signOut } from "firebase/auth";
 import { auth } from "../utils/FirebaseConfig";
 import { Context } from "../utils/Context";
 import { Button } from "react-native-paper";
+import styled from "styled-components/native";
+import { ViewComponent } from "../components/StyledView";
+import { ActivityIndicator, Headline, Avatar } from "react-native-paper";
+import { collection, addDoc, doc, addDocs, setDoc } from "firebase/firestore";
+import { db } from "../utils/FirebaseConfig";
 
 export const WelcomeScreen = () => {
   const { user, setUserFunc, toggleSignIn } = useContext(Context);
@@ -20,12 +25,21 @@ export const WelcomeScreen = () => {
       });
   };
 
-  // TODO: UI mit Styled Components anfertigen (ggfs für wiederverwendete Code Snippets eigene Components anlegen! )
   return (
-    <View style={styles.main}>
-      <Text>Willkommen {user.displayName}</Text>
-      <Button onPress={() => _logout()}>Logout</Button>
-    </View>
+    <ViewComponent>
+      {!user ? (
+        <ActivityIndicator size="large" />
+      ) : (
+        <>
+          <Headline>Willkommen</Headline>
+          <View style={{ flexDirection: "row" }}>
+            <Avatar.Image source={{ uri: user.photoURL }} />
+            <Text> {user.displayName}</Text>
+          </View>
+          <Button onPress={() => _logout()}>Logout</Button>
+        </>
+      )}
+    </ViewComponent>
   );
 };
 

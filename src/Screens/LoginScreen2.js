@@ -10,13 +10,15 @@ import {
 import { Button, View, Text } from "react-native";
 import { auth } from "../utils/FirebaseConfig";
 import { Context } from "../utils/Context";
+import { collection, addDoc, doc, addDocs, setDoc } from "firebase/firestore";
+import { db } from "../utils/FirebaseConfig";
 
 WebBrowser.maybeCompleteAuthSession();
 
 //#############################
 
 export const LoginScreen2 = () => {
-  const { toggleSignIn, setUserFunc } = useContext(Context);
+  const { toggleSignIn, setUserFunc, user } = useContext(Context);
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
     expoClientId:
       "713405592516-ol60pnhss6aslg9e9cpebqfc1ec2uc15.apps.googleusercontent.com",
@@ -30,18 +32,33 @@ export const LoginScreen2 = () => {
     if (response?.type === "success") {
       const { id_token } = response.params;
       //console.log(request);
+
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential)
         .then((userCredential) => {
           const user = userCredential.user;
-          setUserFunc(user);
-          toggleSignIn();
         })
+        .then(() =>
+          onAuthStateChanged(auth, (user) => {
+            _setUserInFirebase(user);
+            setUserFunc(user);
+            toggleSignIn();
+          })
+        )
+
         .catch((error) => {
           //console.log("error: ", error);
         });
     }
   }, [response]);
+
+  const _setUserInFirebase = async (user) => {
+    await setDoc(doc(db, "User", `${user.email}`, `Profil`, `Informationen`), {
+      display: user.displayName,
+      email: user.email,
+      photoURL: user.photoURL,
+    });
+  };
 
   return (
     <View>
