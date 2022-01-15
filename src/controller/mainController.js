@@ -43,10 +43,10 @@ const DefaultThemeNew = {
 export default function MainController() {
   // TODO: Theming: hier die beiden Themes ändern
 
-  //let theme = isThemeDark ? CombinedDarkTheme : CombinedDefaultTheme;
+  let theme = isThemeDark ? CombinedDarkTheme : CombinedDefaultTheme;
 
   // TODO das Theme des Telefons verwenden
-
+  /**
   const colorSchemeIdent = useColorScheme();
   let theme;
   if (colorSchemeIdent === "dark") {
@@ -54,6 +54,8 @@ export default function MainController() {
   } else {
     theme = CombinedDefaultTheme;
   }
+
+ */
 
   const [isThemeDark, setIsThemeDark] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
