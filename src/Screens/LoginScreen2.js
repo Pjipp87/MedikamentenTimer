@@ -57,6 +57,7 @@ export const LoginScreen2 = () => {
       display: user.displayName,
       email: user.email,
       photoURL: user.photoURL,
+      uid: user.uid,
     });
   };
 
