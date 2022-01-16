@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, FlatList } from "react-native";
+import { StyleSheet, Text, View, FlatList, ScrollView } from "react-native";
 import {
   Button,
   useTheme,
@@ -43,64 +43,67 @@ export const MedicationScreen = ({ navigation }) => {
     setDosierung("");
     setMedikament("");
     setEinnahme("");
-    toggleModalVisibale();
+    //toggleModalVisibale();
   };
+
+  const _removeFromArray = (item) => {
+    const tempArray = MedikamenteArray;
+    console.log(tempArray);
+    const index = tempArray.findIndex((index) => index.name === item);
+    console.log(index);
+    tempArray.splice(index, 1);
+    setMedikamenteArray((array) => [...array], tempArray);
+  };
+
+  useState(() => {}, [MedikamenteArray]);
 
   React.useEffect(() => {
     setPage(0);
   }, [itemsPerPage]);
 
   return (
-    <View style={styles.main}>
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          width: useWindowDimensions().width,
-        }}
-      >
-        <Portal>
-          <Modal
-            visible={modalVisible}
-            onDismiss={toggleModalVisibale}
-            contentContainerStyle={containerStyle}
-          >
-            <View>
-              <Title>Bitte Medikament eingeben...</Title>
-              <View style={{ marginVertical: 40 }}>
-                <TextInput
-                  label="Name des Medikaments"
-                  value={medikament}
-                  onChangeText={(medikament) => setMedikament(medikament)}
-                  activeUnderlineColor={colors.greenDark}
-                />
-                <TextInput
-                  label="Einnahme"
-                  value={einnahme}
-                  onChangeText={(einnahme) => setEinnahme(einnahme)}
-                  style={{ marginVertical: 20 }}
-                  activeUnderlineColor={colors.greenDark}
-                />
-                <TextInput
-                  label="Dosierung"
-                  value={dosierung}
-                  onChangeText={(dosierung) => setDosierung(dosierung)}
-                  activeUnderlineColor={colors.greenDark}
-                />
-              </View>
-              <Button
-                mode="contained"
-                icon="keyboard-backspace"
-                color={colors.greenDark}
-                onPress={() => _addToArray()}
-              >
-                Speichern
-              </Button>
+    <>
+      <Portal>
+        <Modal
+          visible={modalVisible}
+          onDismiss={toggleModalVisibale}
+          contentContainerStyle={containerStyle}
+        >
+          <View>
+            <Title>Bitte Medikament eingeben...</Title>
+            <View style={{ marginVertical: 40 }}>
+              <TextInput
+                label="Name des Medikaments"
+                value={medikament}
+                onChangeText={(medikament) => setMedikament(medikament)}
+                activeUnderlineColor={colors.greenDark}
+              />
+              <TextInput
+                label="Einnahme"
+                value={einnahme}
+                onChangeText={(einnahme) => setEinnahme(einnahme)}
+                style={{ marginVertical: 20 }}
+                activeUnderlineColor={colors.greenDark}
+              />
+              <TextInput
+                label="Dosierung"
+                value={dosierung}
+                onChangeText={(dosierung) => setDosierung(dosierung)}
+                activeUnderlineColor={colors.greenDark}
+              />
             </View>
-          </Modal>
-        </Portal>
-
+            <Button
+              mode="contained"
+              icon="keyboard-backspace"
+              color={colors.greenDark}
+              onPress={() => _addToArray()}
+            >
+              Speichern
+            </Button>
+          </View>
+        </Modal>
+      </Portal>
+      <View style={styles.main}>
         <Headline>Medikation</Headline>
         {MedikamenteArray.length === 0 ? (
           <View style={{ flex: 1, justifyContent: "center" }}>
@@ -117,74 +120,82 @@ export const MedicationScreen = ({ navigation }) => {
             </Title>
           </View>
         ) : (
-          <DataTable style={{ width: "100%" }}>
-            <DataTable.Header>
-              <DataTable.Title>Medikament</DataTable.Title>
-              <DataTable.Title numeric>Einnahme</DataTable.Title>
-              <DataTable.Title numeric>Dosierung/Einnahme</DataTable.Title>
-            </DataTable.Header>
-            {MedikamenteArray.map((element) => {
-              return (
-                <DataTable.Row>
-                  <DataTable.Cell>{element.name}</DataTable.Cell>
-                  <DataTable.Cell numeric>{element.einnahme}</DataTable.Cell>
-                  <DataTable.Cell numeric>{element.dosierung}</DataTable.Cell>
-                </DataTable.Row>
-              );
-            })}
+          <DataTable
+            style={{
+              width: "100%",
 
-            <DataTable.Pagination
-              page={page}
-              numberOfPages={3}
-              onPageChange={(page) => setPage(page)}
-              label="1-2 of 6"
-              optionsPerPage={optionsPerPage}
-              itemsPerPage={itemsPerPage}
-              setItemsPerPage={setItemsPerPage}
-              showFastPagination
-              optionsLabel={"Rows per page"}
-            />
+              paddingBottom: 100,
+            }}
+          >
+            <DataTable.Header>
+              <DataTable.Title numberOfLines={2}>
+                <Title>Medikament</Title>
+              </DataTable.Title>
+              <DataTable.Title numeric>
+                <Title>Einnahme</Title>
+              </DataTable.Title>
+              <DataTable.Title numeric>
+                <Title>Dosierung</Title>
+              </DataTable.Title>
+            </DataTable.Header>
+
+            <ScrollView>
+              {MedikamenteArray.map((element) => {
+                return (
+                  <DataTable.Row
+                    onPress={() => _removeFromArray(element.name)}
+                    style={{ backgroundColor: colors.greenBright }}
+                  >
+                    <DataTable.Cell>
+                      <Text style={{ fontWeight: "bold" }}>{element.name}</Text>
+                    </DataTable.Cell>
+                    <DataTable.Cell numeric>{element.einnahme}</DataTable.Cell>
+                    <DataTable.Cell numeric>{element.dosierung}</DataTable.Cell>
+                  </DataTable.Row>
+                );
+              })}
+            </ScrollView>
           </DataTable>
         )}
+
+        <Provider>
+          <Portal>
+            <FAB.Group
+              open={open}
+              icon={open ? "backup-restore" : "plus"}
+              actions={[
+                {
+                  icon: "minus",
+                  label: "Entfernen",
+                  onPress: () => console.log("Entfernen gedrückt"),
+                  small: false,
+                },
+                {
+                  icon: "plus",
+                  label: "Hinzufügen",
+                  onPress: () => toggleModalVisibale(),
+                  small: false,
+                },
+              ]}
+              onStateChange={onFabStateChange}
+              onPress={() => {
+                if (open) {
+                  // do something if the speed dial is open
+                }
+              }}
+            />
+          </Portal>
+        </Provider>
+        <Button
+          mode="contained"
+          icon="keyboard-backspace"
+          color={colors.greenDark}
+          onPress={() => navigation.navigate("Willkommen")}
+        >
+          Zurück
+        </Button>
       </View>
-      <Provider>
-        <Portal>
-          <FAB.Group
-            open={open}
-            icon={open ? "backup-restore" : "plus"}
-            actions={[
-              {
-                icon: "minus",
-                label: "Entfernen",
-                onPress: () => console.log("Entfernen gedrückt"),
-                small: false,
-              },
-              {
-                icon: "plus",
-                label: "Hinzufügen",
-                onPress: () => toggleModalVisibale(),
-                small: false,
-              },
-            ]}
-            onStateChange={onFabStateChange}
-            onPress={() => {
-              if (open) {
-                // do something if the speed dial is open
-              }
-            }}
-          />
-        </Portal>
-      </Provider>
-      <Button
-        mode="contained"
-        icon="keyboard-backspace"
-        color={colors.greenDark}
-        onPress={() => navigation.navigate("Willkommen")}
-        style={{ marginVertical: 40 }}
-      >
-        Zurück
-      </Button>
-    </View>
+    </>
   );
 };
 
@@ -193,5 +204,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+
+    marginTop: 75,
   },
 });
