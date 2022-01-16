@@ -38,7 +38,7 @@ export const WelcomeScreen = ({ navigation }) => {
         }
       );
     };
-  }, []);
+  }, [user]);
 
   // TODO: Logout in eine andere Datei (LOGOUT_LOGIN.js)
   const _logout = () => {

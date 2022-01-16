@@ -41,6 +41,7 @@ const DefaultThemeNew = {
     accent: "#f0a04b",
     greenDark: "#183a1d",
     greenBright: "#e1eedd",
+    LoginBackground: "#cb7d8c",
   },
 };
 

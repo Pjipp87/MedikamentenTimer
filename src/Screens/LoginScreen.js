@@ -1,27 +1,20 @@
 import React, { useContext, useEffect } from "react";
 import * as WebBrowser from "expo-web-browser";
-import { ResponseType } from "expo-auth-session";
+import { useTheme } from "react-native-paper";
 import { ViewComponent } from "../components/StyledView";
 import * as Google from "expo-auth-session/providers/google";
-import {
-  GoogleAuthProvider,
-  signInWithCredential,
-  onAuthStateChanged,
-} from "firebase/auth";
-import { LoginButton } from "../components/LoginButton";
-import { View, Image } from "react-native";
+import { GoogleAuthProvider, signInWithCredential } from "firebase/auth";
+import { Image } from "react-native";
 import { auth } from "../utils/FirebaseConfig";
 import { Context } from "../utils/Context";
-import { doc, setDoc } from "firebase/firestore";
-import { db } from "../utils/FirebaseConfig";
-import { Button, Headline } from "react-native-paper";
+import { Button } from "react-native-paper";
 
 WebBrowser.maybeCompleteAuthSession();
 
 //#############################
 
 export const LoginScreen = () => {
-  const { toggleSignIn, setUserFunc, user } = useContext(Context);
+  const { toggleSignIn, setUserFunc } = useContext(Context);
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
     expoClientId:
       "713405592516-ol60pnhss6aslg9e9cpebqfc1ec2uc15.apps.googleusercontent.com",
@@ -30,6 +23,7 @@ export const LoginScreen = () => {
       "713405592516-u5sc7u9r62tq01ctj9ifmhn7btfp3e0m.apps.googleusercontent.com",
     webClientId: "GOOGLE_GUID.apps.googleusercontent.com",
   });
+  const { colors } = useTheme();
 
   useEffect(() => {
     if (response?.type === "success") {
@@ -52,7 +46,10 @@ export const LoginScreen = () => {
 
   return (
     <ViewComponent
-      style={{ justifyContent: "flex-start", backgroundColor: "#cb7d8c" }}
+      style={{
+        justifyContent: "flex-start",
+        backgroundColor: colors.LoginBackground,
+      }}
     >
       <Image
         source={require("../images/Lgog.png")}
