@@ -11,8 +11,12 @@ import {
   TextInput,
   Headline,
   Title,
+  Dialog,
+  Paragraph,
+  IconButton,
 } from "react-native-paper";
 import { useWindowDimensions } from "react-native";
+import { v4 as uuidv4 } from "uuid";
 
 const optionsPerPage = [2, 3, 4];
 
@@ -31,19 +35,34 @@ export const MedicationScreen = ({ navigation }) => {
   const [dosierung, setDosierung] = useState("");
   const [MedikamenteArray, setMedikamenteArray] = useState([]);
   const containerStyle = { backgroundColor: colors.accent, padding: 20 };
+  const [alertVisible, setAlertVisible] = React.useState(false);
+  const [MedikamentToDelete, setMedikamentToDelete] = useState("");
+  const _toggleAlert = (item) => {
+    setMedikamentToDelete(item);
+    setAlertVisible(!alertVisible);
+  };
+
+  const [morgens, setMorgens] = useState(0);
+  const [mittags, setMittags] = useState(0);
+  const [abends, setAbends] = useState(0);
 
   const _addToArray = () => {
     let tempArray = MedikamenteArray;
     tempArray.push({
       name: medikament,
       dosierung: dosierung,
-      einnahme: einnahme,
+      morgens: morgens,
+      mittags: mittags,
+      abends: abends,
+      id: uuidv4(),
     });
     setMedikamenteArray((array) => [...array]);
     setDosierung("");
     setMedikament("");
-    setEinnahme("");
-    //toggleModalVisibale();
+    setMorgens(0);
+    setMittags(0);
+    setAbends(0);
+    toggleModalVisibale();
   };
 
   const _removeFromArray = (item) => {
@@ -53,6 +72,8 @@ export const MedicationScreen = ({ navigation }) => {
     console.log(index);
     tempArray.splice(index, 1);
     setMedikamenteArray((array) => [...array], tempArray);
+    setMedikamentToDelete("");
+    setAlertVisible(!alertVisible);
   };
 
   useState(() => {}, [MedikamenteArray]);
@@ -78,23 +99,116 @@ export const MedicationScreen = ({ navigation }) => {
                 onChangeText={(medikament) => setMedikament(medikament)}
                 activeUnderlineColor={colors.greenDark}
               />
-              <TextInput
-                label="Einnahme"
-                value={einnahme}
-                onChangeText={(einnahme) => setEinnahme(einnahme)}
-                style={{ marginVertical: 20 }}
-                activeUnderlineColor={colors.greenDark}
-              />
-              <TextInput
-                label="Dosierung"
-                value={dosierung}
-                onChangeText={(dosierung) => setDosierung(dosierung)}
-                activeUnderlineColor={colors.greenDark}
-              />
+
+              <Headline style={{ paddingVertical: 10, textAlign: "center" }}>
+                Dosierung
+              </Headline>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-around",
+                  alignItems: "center",
+                }}
+              >
+                <Headline>Morgens</Headline>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Button
+                    onPress={() => {
+                      let number = morgens;
+                      if (number > 0) {
+                        number--;
+                      }
+                      setMorgens(number);
+                    }}
+                    labelStyle={{ fontSize: 36 }}
+                  >
+                    -
+                  </Button>
+                  <Headline style={{ fontWeight: "bold" }}>{morgens}</Headline>
+                  <Button
+                    onPress={() => {
+                      let number = morgens;
+                      number++;
+                      setMorgens(number);
+                    }}
+                    labelStyle={{ fontSize: 30 }}
+                  >
+                    +
+                  </Button>
+                </View>
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-around",
+                  alignItems: "center",
+                }}
+              >
+                <Headline>Mittags</Headline>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Button
+                    onPress={() => {
+                      let number = mittags;
+                      if (number > 0) {
+                        number--;
+                      }
+                      setMittags(number);
+                    }}
+                    labelStyle={{ fontSize: 30 }}
+                  >
+                    -
+                  </Button>
+                  <Headline style={{ fontWeight: "bold" }}>{mittags}</Headline>
+                  <Button
+                    onPress={() => {
+                      let number = mittags;
+                      number++;
+                      setMittags(number);
+                    }}
+                    labelStyle={{ fontSize: 30 }}
+                  >
+                    +
+                  </Button>
+                </View>
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-around",
+                  alignItems: "center",
+                }}
+              >
+                <Headline>Abends</Headline>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Button
+                    onPress={() => {
+                      let number = abends;
+                      if (number > 0) {
+                        number--;
+                      }
+                      setAbends(number);
+                    }}
+                    labelStyle={{ fontSize: 36 }}
+                  >
+                    -
+                  </Button>
+                  <Headline style={{ fontWeight: "bold" }}>{abends}</Headline>
+                  <Button
+                    onPress={() => {
+                      let number = abends;
+                      number++;
+                      setAbends(number);
+                    }}
+                    labelStyle={{ fontSize: 30 }}
+                  >
+                    +
+                  </Button>
+                </View>
+              </View>
             </View>
             <Button
               mode="contained"
-              icon="keyboard-backspace"
+              icon="content-save-outline"
               color={colors.greenDark}
               onPress={() => _addToArray()}
             >
@@ -102,6 +216,26 @@ export const MedicationScreen = ({ navigation }) => {
             </Button>
           </View>
         </Modal>
+        <Dialog visible={alertVisible} onDismiss={_toggleAlert}>
+          <Dialog.Title>Medikament löschen?</Dialog.Title>
+          <Dialog.Content>
+            <Paragraph>
+              Möchten Sie das Medikament {MedikamentToDelete} aus Ihrer Liste
+              entfernen?
+            </Paragraph>
+          </Dialog.Content>
+          <Dialog.Actions>
+            <Button onPress={() => _toggleAlert()} color={colors.greenDark}>
+              Abbrechen
+            </Button>
+            <Button
+              onPress={() => _removeFromArray(MedikamentToDelete)}
+              color={colors.notification}
+            >
+              Löschen
+            </Button>
+          </Dialog.Actions>
+        </Dialog>
       </Portal>
       <View style={styles.main}>
         <Headline>Medikation</Headline>
@@ -143,13 +277,18 @@ export const MedicationScreen = ({ navigation }) => {
               {MedikamenteArray.map((element) => {
                 return (
                   <DataTable.Row
-                    onPress={() => _removeFromArray(element.name)}
-                    style={{ backgroundColor: colors.greenBright }}
+                    onPress={() => _toggleAlert(element.name)}
+                    style={{
+                      backgroundColor: colors.greenBright,
+                      marginBottom: 10,
+                    }}
                   >
                     <DataTable.Cell>
                       <Text style={{ fontWeight: "bold" }}>{element.name}</Text>
                     </DataTable.Cell>
-                    <DataTable.Cell numeric>{element.einnahme}</DataTable.Cell>
+                    <DataTable.Cell
+                      numeric
+                    >{`${element.morgens} - ${element.mittags} - ${element.abends}`}</DataTable.Cell>
                     <DataTable.Cell numeric>{element.dosierung}</DataTable.Cell>
                   </DataTable.Row>
                 );
@@ -158,18 +297,53 @@ export const MedicationScreen = ({ navigation }) => {
           </DataTable>
         )}
 
-        <Provider>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            width: useWindowDimensions().width,
+            paddingHorizontal: 30,
+          }}
+        >
+          <Button
+            mode="contained"
+            icon="keyboard-backspace"
+            color={colors.greenDark}
+            onPress={() => navigation.navigate("Willkommen")}
+          >
+            Zurück
+          </Button>
+          <IconButton
+            icon="plus"
+            color={colors.greenBright}
+            size={40}
+            onPress={() => toggleModalVisibale()}
+            style={{ backgroundColor: colors.greenDark }}
+          />
+        </View>
+      </View>
+    </>
+  );
+};
+
+const styles = StyleSheet.create({
+  main: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+
+    marginTop: 75,
+  },
+});
+
+/**
+ *   <Provider>
           <Portal>
             <FAB.Group
               open={open}
               icon={open ? "backup-restore" : "plus"}
               actions={[
-                {
-                  icon: "minus",
-                  label: "Entfernen",
-                  onPress: () => console.log("Entfernen gedrückt"),
-                  small: false,
-                },
                 {
                   icon: "plus",
                   label: "Hinzufügen",
@@ -186,25 +360,4 @@ export const MedicationScreen = ({ navigation }) => {
             />
           </Portal>
         </Provider>
-        <Button
-          mode="contained"
-          icon="keyboard-backspace"
-          color={colors.greenDark}
-          onPress={() => navigation.navigate("Willkommen")}
-        >
-          Zurück
-        </Button>
-      </View>
-    </>
-  );
-};
-
-const styles = StyleSheet.create({
-  main: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-
-    marginTop: 75,
-  },
-});
+ */
