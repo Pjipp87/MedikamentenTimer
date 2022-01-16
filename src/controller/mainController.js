@@ -23,11 +23,10 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 const CombinedDefaultTheme = merge(PaperDefaultTheme, NavigationDefaultTheme);
 const CombinedDarkTheme = merge(PaperDarkTheme, NavigationDarkTheme);
-import { createStackNavigator } from "@react-navigation/stack";
+
 import { useTheme } from "react-native-paper";
 import { useColorScheme } from "react-native";
 
-const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 // TODO: Theming: hier die beiden Thmes definieren
