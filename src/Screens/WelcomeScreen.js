@@ -26,19 +26,6 @@ export const WelcomeScreen = ({ navigation }) => {
     onAuthStateChanged(auth, (user) => {
       _setUserInFirebase(user);
     });
-
-    const _setUserInFirebase = async (user) => {
-      console.log(user);
-      await setDoc(
-        doc(db, "User", `${user.email}`, `Profil`, `Informationen`),
-        {
-          display: user.displayName,
-          email: user.email,
-          photoURL: user.photoURL,
-          uid: user.uid,
-        }
-      );
-    };
   }, [user]);
 
   // TODO: Logout in eine andere Datei (LOGOUT_LOGIN.js)
@@ -51,6 +38,16 @@ export const WelcomeScreen = ({ navigation }) => {
       .catch((error) => {
         //console.log("Logout error");
       });
+  };
+
+  const _setUserInFirebase = async (user) => {
+    //console.log(user);
+    await setDoc(doc(db, "User", `${user.email}`, `Profil`, `Informationen`), {
+      display: user.displayName,
+      email: user.email,
+      photoURL: user.photoURL,
+      uid: user.uid,
+    });
   };
 
   return (
