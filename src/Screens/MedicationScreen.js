@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { StyleSheet, Text, View, FlatList, ScrollView } from "react-native";
 import {
   Button,
@@ -17,10 +17,14 @@ import {
 } from "react-native-paper";
 import { useWindowDimensions } from "react-native";
 import { v4 as uuidv4 } from "uuid";
+import { collection, getDoc, doc, addDocs, setDoc } from "firebase/firestore";
+import { db } from "../utils/FirebaseConfig";
+import { Context } from "../utils/Context";
 
 const optionsPerPage = [2, 3, 4];
 
 export const MedicationScreen = ({ navigation }) => {
+  const { user } = useContext(Context);
   //##########################
   const { colors } = useTheme();
   const [fabState, setFabState] = useState({ open: false });
@@ -47,15 +51,18 @@ export const MedicationScreen = ({ navigation }) => {
   const [abends, setAbends] = useState(0);
 
   const _addToArray = () => {
-    let tempArray = MedikamenteArray;
-    tempArray.push({
+    const medikamentFirebase = {
       name: medikament,
       dosierung: dosierung,
       morgens: morgens,
       mittags: mittags,
       abends: abends,
       id: uuidv4(),
-    });
+    };
+    _setMedikamentInFirebase(medikamentFirebase);
+    let tempArray = MedikamenteArray;
+    tempArray.push(medikamentFirebase);
+
     setMedikamenteArray((array) => [...array]);
     setDosierung("");
     setMedikament("");
@@ -76,11 +83,20 @@ export const MedicationScreen = ({ navigation }) => {
     setAlertVisible(!alertVisible);
   };
 
-  useState(() => {}, [MedikamenteArray]);
-
-  React.useEffect(() => {
-    setPage(0);
-  }, [itemsPerPage]);
+  const _setMedikamentInFirebase = async (medikament) => {
+    //console.log(user);
+    await setDoc(
+      doc(db, "User", `${user.email}`, `Medikamente`, `${medikament.name}`),
+      {
+        name: medikament.name,
+        dosierung: medikament.dosierung,
+        morgens: medikament.morgens,
+        mittags: medikament.mittags,
+        abends: medikament.abends,
+        id: medikament.id,
+      }
+    );
+  };
 
   return (
     <>
