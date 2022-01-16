@@ -28,6 +28,7 @@ export const WelcomeScreen = ({ navigation }) => {
     });
 
     const _setUserInFirebase = async (user) => {
+      console.log(user);
       await setDoc(
         doc(db, "User", `${user.email}`, `Profil`, `Informationen`),
         {
