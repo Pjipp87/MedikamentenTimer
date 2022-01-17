@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { StyleSheet, Text, View, FlatList, ScrollView } from "react-native";
 import {
   Button,
@@ -17,7 +17,14 @@ import {
 } from "react-native-paper";
 import { useWindowDimensions } from "react-native";
 import { v4 as uuidv4 } from "uuid";
-import { collection, getDoc, doc, addDocs, setDoc } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  doc,
+  addDocs,
+  setDoc,
+  deleteDoc,
+} from "firebase/firestore";
 import { db } from "../utils/FirebaseConfig";
 import { Context } from "../utils/Context";
 
@@ -46,9 +53,22 @@ export const MedicationScreen = ({ navigation }) => {
     setAlertVisible(!alertVisible);
   };
 
+  const { userName } = user.email;
+
+  useEffect(() => {
+    _getFromMedikamenteFromFirestore();
+    console.log(userName);
+  }, [!MedikamenteArray]);
+
   const [morgens, setMorgens] = useState(0);
   const [mittags, setMittags] = useState(0);
   const [abends, setAbends] = useState(0);
+
+  const _deleteInFirestore = async (item) => {
+    console.log("#######################################", medikament);
+    console.log("#######################################", user.email);
+    await deleteDoc(doc(db, "User", `${user.email}`, `Medikamente`, `${item}`));
+  };
 
   const _addToArray = () => {
     const medikamentFirebase = {
@@ -72,13 +92,15 @@ export const MedicationScreen = ({ navigation }) => {
     toggleModalVisibale();
   };
 
-  const _removeFromArray = (item) => {
+  const _removeFromArray = async (item) => {
     const tempArray = MedikamenteArray;
     console.log(tempArray);
     const index = tempArray.findIndex((index) => index.name === item);
     console.log(index);
     tempArray.splice(index, 1);
     setMedikamenteArray((array) => [...array], tempArray);
+    _deleteInFirestore(item);
+
     setMedikamentToDelete("");
     setAlertVisible(!alertVisible);
   };
@@ -96,6 +118,17 @@ export const MedicationScreen = ({ navigation }) => {
         id: medikament.id,
       }
     );
+  };
+
+  const _getFromMedikamenteFromFirestore = async () => {
+    let tempArray = [];
+    const querySnapshot = await getDocs(
+      collection(db, "User", `${user.email}`, `Medikamente`)
+    );
+    querySnapshot.forEach((doc) => {
+      tempArray.push(doc.data());
+    });
+    setMedikamenteArray(tempArray);
   };
 
   return (
