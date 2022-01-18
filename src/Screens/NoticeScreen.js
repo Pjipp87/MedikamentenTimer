@@ -41,7 +41,7 @@ export const NoticeScreen = ({ navigation }) => {
 
   useEffect(() => {
     _getNotice();
-  }, [!doctors]);
+  }, [!notice]);
 
   const _toggleModalVisibale = () => setModalVisible(!modalVisible);
 
@@ -266,7 +266,7 @@ export const NoticeScreen = ({ navigation }) => {
               Abbrechen
             </Button>
             <Button
-              onPress={() => _deleteDoctor(noticeToRemove)}
+              onPress={() => _deleteNotice(noticeToRemove)}
               color={colors.notification}
             >
               Löschen
@@ -287,13 +287,13 @@ export const NoticeScreen = ({ navigation }) => {
               <TextInput
                 label="Titel"
                 value={noticeTitel}
-                onChangeText={(name) => setNoticeTitel(name)}
+                onChangeText={(titel) => setNoticeTitel(titel)}
                 activeUnderlineColor={colors.greenDark}
               />
               <TextInput
                 label="Text"
-                value={doctorSpecialist}
-                onChangeText={(specialist) => setNoticeText(specialist)}
+                value={noticeText}
+                onChangeText={(text) => setNoticeText(text)}
                 activeUnderlineColor={colors.greenDark}
               />
 
