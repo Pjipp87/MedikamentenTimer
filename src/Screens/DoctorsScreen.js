@@ -11,6 +11,8 @@ import {
   Modal,
   Dialog,
   Paragraph,
+  Caption,
+  Subheading,
 } from "react-native-paper";
 import { v4 as uuidv4 } from "uuid";
 import {
@@ -23,6 +25,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../utils/FirebaseConfig";
 import { Context } from "../utils/Context";
+import call from "react-native-phone-call";
 
 export const DoctorsScreen = ({ navigation }) => {
   const { user } = useContext(Context);
@@ -238,6 +241,15 @@ export const DoctorsScreen = ({ navigation }) => {
   ];
   */
 
+  const _makecall = (item) => {
+    const args = {
+      number: item.tel,
+      prompt: true,
+    };
+    // Make a call
+    call(args).catch(console.error);
+  };
+
   const ListItem = ({ item }) => {
     return (
       <View
@@ -250,12 +262,25 @@ export const DoctorsScreen = ({ navigation }) => {
         }}
       >
         <View>
-          <Headline>{`${item.name}`}</Headline>
-          <Text>{`${item.specialist}`}</Text>
+          <Headline style={{ fontSize: 30 }}>{`Dr. ${item.name}`}</Headline>
+          <Text style={{ fontSize: 18 }}>{`${item.specialist}`}</Text>
+          <Text style={{ fontSize: 18 }}>{`${item.tel}`}</Text>
+          <Text style={{ fontSize: 18 }}>{`${item.street}`}</Text>
+          <Text style={{ fontSize: 18 }}>{`${item.zipcode} ${item.city}`}</Text>
+          <Button
+            icon="phone-forward"
+            onPress={() => _makecall(item)}
+            mode="contained"
+            style={{ marginVertical: 10 }}
+            color={colors.onSurface}
+          >
+            Anrufen
+          </Button>
         </View>
         <Button
           labelStyle={{ fontSize: 20 }}
           onPress={() => _toggleAlert(item.name)}
+          color={colors.error}
         >
           X
         </Button>

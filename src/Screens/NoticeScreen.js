@@ -35,7 +35,7 @@ export const NoticeScreen = ({ navigation }) => {
   const [noticeToRemove, setnoticeToRemove] = useState("");
   const [notice, setNotice] = useState([]);
   const _toggleAlert = (item) => {
-    setdoctorToRemove(item);
+    setnoticeToRemove(item);
     setAlertVisible(!alertVisible);
   };
 
@@ -46,10 +46,17 @@ export const NoticeScreen = ({ navigation }) => {
   const _toggleModalVisibale = () => setModalVisible(!modalVisible);
 
   const _saveNotice = async () => {
-    await setDoc(doc(db, "User", `${user.email}`, `Notice`, `${noticeTitel}`), {
-      titel: noticeTitel,
-      text: noticeText,
-    }).then(() => {
+    const time = new Date();
+    const timeDate = time.toLocaleString();
+    const timeInSeconds = time.getTime();
+    await setDoc(
+      doc(db, "User", `${user.email}`, `Notice`, `${timeInSeconds}`),
+      {
+        titel: noticeTitel,
+        text: noticeText,
+        time: timeDate,
+      }
+    ).then(() => {
       setNoticeTitel("");
       setNoticeText("");
       _toggleModalVisibale();
@@ -233,20 +240,28 @@ export const NoticeScreen = ({ navigation }) => {
           marginVertical: 15,
           borderBottomColor: "black",
           borderBottomWidth: 1,
-          flexDirection: "row",
-          justifyContent: "space-between",
+
+          backgroundColor: colors.primary,
+          padding: 20,
         }}
       >
-        <View>
-          <Headline>{`${item.titel}`}</Headline>
-          <Text>{`${item.text}`}</Text>
-        </View>
-        <Button
-          labelStyle={{ fontSize: 20 }}
-          onPress={() => _toggleAlert(item.titel)}
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            width: useWindowDimensions().width * 0.8,
+            alignItems: "center",
+          }}
         >
-          X
-        </Button>
+          <Headline style={{ textAlign: "center" }}>{`${item.titel}`}</Headline>
+          <Button
+            icon="trash-can-outline"
+            labelStyle={{ fontSize: 20 }}
+            onPress={() => _toggleAlert(item.titel)}
+            color={colors.error}
+          ></Button>
+        </View>
+        <Text>{`${item.text}`}</Text>
       </View>
     );
   };
@@ -295,6 +310,9 @@ export const NoticeScreen = ({ navigation }) => {
                 value={noticeText}
                 onChangeText={(text) => setNoticeText(text)}
                 activeUnderlineColor={colors.greenDark}
+                style={{ marginVertical: 20 }}
+                multiline={true}
+                numberOfLines={9}
               />
 
               <Button
