@@ -35,6 +35,7 @@ export const NoticeScreen = ({ navigation }) => {
   const [noticeToRemove, setnoticeToRemove] = useState("");
   const [notice, setNotice] = useState([]);
   const _toggleAlert = (item) => {
+    console.log(item);
     setnoticeToRemove(item);
     setAlertVisible(!alertVisible);
   };
@@ -76,6 +77,7 @@ export const NoticeScreen = ({ navigation }) => {
   };
 
   const _deleteNotice = async (item) => {
+    console.log("item", item);
     await deleteDoc(doc(db, "User", `${user.email}`, `Notice`, `${item}`)).then(
       () => {
         _getNotice();
@@ -257,7 +259,7 @@ export const NoticeScreen = ({ navigation }) => {
           <Button
             icon="trash-can-outline"
             labelStyle={{ fontSize: 20 }}
-            onPress={() => _toggleAlert(item.titel)}
+            onPress={() => _toggleAlert(item.time)}
             color={colors.error}
           ></Button>
         </View>
