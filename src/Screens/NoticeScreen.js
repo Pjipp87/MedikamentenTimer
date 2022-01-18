@@ -327,7 +327,7 @@ export const NoticeScreen = ({ navigation }) => {
             Zurück
           </Button>
           <Button onPress={() => _toggleModalVisibale()}>
-            Arzt hinzufügen
+            Notiz hinzufügen
           </Button>
         </View>
       </View>
