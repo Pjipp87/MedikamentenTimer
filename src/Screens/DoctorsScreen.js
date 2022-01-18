@@ -23,6 +23,7 @@ import {
   setDoc,
   deleteDoc,
 } from "firebase/firestore";
+import * as Linking from "expo-linking";
 import { db } from "../utils/FirebaseConfig";
 import { Context } from "../utils/Context";
 import call from "react-native-phone-call";
@@ -242,12 +243,16 @@ export const DoctorsScreen = ({ navigation }) => {
   */
 
   const _makecall = (item) => {
-    const args = {
+    /**
+  *    const args = {
       number: item.tel,
       prompt: true,
     };
     // Make a call
     call(args).catch(console.error);
+  */
+    const phone = item.tel;
+    Linking.openURL(`tel:${phone}`);
   };
 
   const ListItem = ({ item }) => {
