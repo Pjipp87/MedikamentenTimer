@@ -294,7 +294,7 @@ export const DoctorsScreen = ({ navigation }) => {
           }}
         >
           <View>
-            <Title>BitteDaten eingeben eingeben...</Title>
+            <Title>Bitte Daten eingeben eingeben...</Title>
             <View style={{ marginVertical: 40 }}>
               <TextInput
                 label="Name des Arztes"
