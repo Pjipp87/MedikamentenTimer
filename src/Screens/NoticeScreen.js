@@ -20,6 +20,7 @@ import {
   addDocs,
   setDoc,
   deleteDoc,
+  where,
 } from "firebase/firestore";
 import { db } from "../utils/FirebaseConfig";
 import { Context } from "../utils/Context";
@@ -56,6 +57,7 @@ export const NoticeScreen = ({ navigation }) => {
         titel: noticeTitel,
         text: noticeText,
         time: timeDate,
+        id: uuidv4(),
       }
     ).then(() => {
       setNoticeTitel("");
@@ -76,8 +78,8 @@ export const NoticeScreen = ({ navigation }) => {
     setNotice(tempArray);
   };
 
+  // AUF ID UMSTELLEN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   const _deleteNotice = async (item) => {
-    console.log("item", item);
     await deleteDoc(doc(db, "User", `${user.email}`, `Notice`, `${item}`)).then(
       () => {
         _getNotice();
