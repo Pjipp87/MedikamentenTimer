@@ -51,15 +51,12 @@ export const NoticeScreen = ({ navigation }) => {
     const time = new Date();
     const timeDate = time.toLocaleString();
     const timeInSeconds = time.getTime();
-    await setDoc(
-      doc(db, "User", `${user.email}`, `Notice`, `${timeInSeconds}`),
-      {
-        titel: noticeTitel,
-        text: noticeText,
-        time: timeDate,
-        id: uuidv4(),
-      }
-    ).then(() => {
+    await setDoc(doc(db, "User", `${user.email}`, `Notice`, `${noticeTitel}`), {
+      titel: noticeTitel,
+      text: noticeText,
+      time: timeDate,
+      id: uuidv4(),
+    }).then(() => {
       setNoticeTitel("");
       setNoticeText("");
       _toggleModalVisibale();
@@ -75,6 +72,7 @@ export const NoticeScreen = ({ navigation }) => {
     querySnapshot.forEach((doc) => {
       tempArray.push(doc.data());
     });
+
     setNotice(tempArray);
   };
 
@@ -261,7 +259,7 @@ export const NoticeScreen = ({ navigation }) => {
           <Button
             icon="trash-can-outline"
             labelStyle={{ fontSize: 20 }}
-            onPress={() => _toggleAlert(item.time)}
+            onPress={() => _toggleAlert(item.titel)}
             color={colors.error}
           ></Button>
         </View>
