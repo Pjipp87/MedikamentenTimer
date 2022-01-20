@@ -13,6 +13,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "plugins": ["@notifee/react-native"],
     "updates": {
       "fallbackToCacheTimeout": 0
     },

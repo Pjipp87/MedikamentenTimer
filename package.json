@@ -9,6 +9,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@notifee/react-native": "^4.0.1",
     "@react-navigation/bottom-tabs": "^6.0.9",
     "@react-navigation/native": "^6.0.6",
     "expo": "~44.0.0",
@@ -26,6 +27,7 @@
     "react-native": "0.64.3",
     "react-native-get-random-values": "^1.7.2",
     "react-native-maps": "0.29.4",
+    "react-native-notifications": "^4.1.3",
     "react-native-paper": "^4.11.2",
     "react-native-phone-call": "^1.0.9",
     "react-native-safe-area-context": "3.3.2",
